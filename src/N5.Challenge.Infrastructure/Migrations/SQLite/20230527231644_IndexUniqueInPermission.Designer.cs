@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using N5.Challenge.Infrastructure;
 
@@ -10,9 +11,11 @@ using N5.Challenge.Infrastructure;
 namespace N5.Challenge.Infrastructure.Migrations.SQLite
 {
     [DbContext(typeof(N5DBContext))]
-    partial class N5DBContextModelSnapshot : ModelSnapshot
+    [Migration("20230527231644_IndexUniqueInPermission")]
+    partial class IndexUniqueInPermission
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
