@@ -19,4 +19,8 @@
     <ProjectReference Include="..\N5.Challenge.Infrastructure\N5.Challenge.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>
