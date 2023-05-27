@@ -16,6 +16,8 @@ namespace N5.Challenge.Domain.Entities
             Id = id;
         }
 
+        public Permission() { }
+
         public async Task SetEmployeeId(Employee employee, IEmployeeRepository repositoryEmployee)
         {
             await ValidateEmployee(employee, repositoryEmployee);

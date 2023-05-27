@@ -13,6 +13,8 @@ namespace N5.Challenge.Domain.Entities
             Id = id;
         }
 
+        public Employee() { }
+
         public void SetName(EmployeeName name)
         {
             Name = name;

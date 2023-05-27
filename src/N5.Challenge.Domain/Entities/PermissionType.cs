@@ -11,6 +11,7 @@ namespace N5.Challenge.Domain.Entities
         {
             Id = id;
         }
+        public PermissionType() { }
 
         public void SetName(PermissionTypeName name)
         {

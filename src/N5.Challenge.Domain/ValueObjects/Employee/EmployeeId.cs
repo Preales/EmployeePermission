@@ -15,17 +15,17 @@
             return new EmployeeId(value);
         }
 
+        public static implicit operator Guid(EmployeeId value)
+        {
+            return value.Value;
+        }
+
         private static void Validate(Guid value)
         {
             if (value == Guid.Empty)
             {
                 throw new ArgumentException("Id should not be empty", nameof(value));
             }
-        }
-
-        public static implicit operator Guid(EmployeeId value)
-        {
-            return value.Value;
         }
     }
 }
