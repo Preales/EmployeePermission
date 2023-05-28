@@ -1,6 +1,6 @@
 ﻿namespace N5.Challenge.Infrastructure.Settings
 {
-    internal class PersistenceSetting
+    public class PersistenceSetting
     {
         public const string SettingName = "PersistenceSettings";
 
@@ -8,6 +8,9 @@
         public bool UseMsSql { get; set; }
         public bool UseSqLite { get; set; }
         public DbConnectionStrings ConnectionStrings { get; set; } = default!;
+
+        public string ConnectionString
+            => UseSqLite ? ConnectionStrings.Sqlite.Replace("|DataDirectory|", Directory.GetParent(Directory.GetCurrentDirectory()).FullName) : ConnectionStrings.MsSql;
 
         public class DbConnectionStrings
         {

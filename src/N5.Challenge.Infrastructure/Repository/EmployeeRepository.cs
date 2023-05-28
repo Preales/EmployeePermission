@@ -20,13 +20,13 @@ namespace N5.Challenge.Infrastructure.Repository
         public async Task<Employee> GetByKeyAsync(EmployeeId key)
             => await _dbContext.Employees.FindAsync(key.Value);
 
-        public async Task PostAsync(Employee entity)
+        public async Task AddAsync(Employee entity)
         {
             _dbContext.Employees.Add(entity);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task PutAsync(Employee entity)
+        public async Task UpdateAsync(Employee entity)
         {
             var entityToUpdate = await _dbContext.Employees.FindAsync(entity.Id);
             if (entityToUpdate is null)

@@ -18,12 +18,22 @@ namespace N5.Challenge.Infrastructure
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Employee>().HasKey(e => e.Id);
-            modelBuilder.Entity<Employee>().OwnsOne(x => x.Name);
-            modelBuilder.Entity<Employee>().OwnsOne(x => x.LastName);
+            modelBuilder.Entity<Employee>().OwnsOne(x => x.Name, add =>
+            {
+                add.Property(x => x.Value).HasColumnName("Name");
+            });
+
+            modelBuilder.Entity<Employee>().OwnsOne(x => x.LastName, add =>
+            {
+                add.Property(x => x.Value).HasColumnName("LastName");
+            });
 
 
             modelBuilder.Entity<PermissionType>().HasKey(e => e.Id);
-            modelBuilder.Entity<PermissionType>().OwnsOne(x => x.Name);
+            modelBuilder.Entity<PermissionType>().OwnsOne(x => x.Name, add =>
+            {
+                add.Property(x => x.Value).HasColumnName("Name");
+            });
 
             modelBuilder.Entity<Permission>().HasKey(e => e.Id);
 
@@ -36,6 +46,7 @@ namespace N5.Challenge.Infrastructure
             modelBuilder.Entity<Permission>()
             .HasIndex(u => new { u.EmployeeId, u.PermissionTypeId })
             .IsUnique();
+
         }
     }
 }

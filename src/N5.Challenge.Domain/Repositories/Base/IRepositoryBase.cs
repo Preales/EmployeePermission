@@ -8,12 +8,12 @@
 
     public interface ICreate<T>
     {
-        Task PostAsync(T entity);
+        Task AddAsync(T entity);
     }
 
     public interface IUpdate<T>
     {
-        Task PutAsync(T entity);
+        Task UpdateAsync(T entity);
     }
 
     public interface IDeleted<T>

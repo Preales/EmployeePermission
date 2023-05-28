@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using N5.Challenge.Infrastructure.Seed;
 using N5.Challenge.Infrastructure.Settings;
 
 namespace N5.Challenge.Infrastructure.Extensions
@@ -13,6 +14,9 @@ namespace N5.Challenge.Infrastructure.Extensions
 
             var persistenceSettings = new PersistenceSetting();
             config.GetSection(PersistenceSetting.SettingName).Bind(persistenceSettings);
+
+            services.Configure<PersistenceSetting>(options => config.GetSection(PersistenceSetting.SettingName).Bind(options));
+
 
             services.AddDbContext<N5DBContext>(options =>
             {
@@ -27,6 +31,7 @@ namespace N5.Challenge.Infrastructure.Extensions
                     options.UseSqlServer(config.GetConnectionString("CnxDbContext"), optsql => optsql.CommandTimeout((int)TimeSpan.FromMinutes(2).TotalSeconds));
             });
             services.AddScoped<ILogger, Logger<N5DBContext>>();
+            services.AddTransient<N5DBContextSeeder>();
             services.Migrate<N5DBContext>(persistenceSettings);
             return services;
         }
@@ -49,6 +54,9 @@ namespace N5.Challenge.Infrastructure.Extensions
             logger.LogWarning($"{new String('=', 80)}{Environment.NewLine}Performing migration for database {typeof(T).Name}{Environment.NewLine}{new String('=', 80)}");
             var dbContext = scope.ServiceProvider.GetRequiredService<T>();
             dbContext.Database.Migrate();
+
+            var seeder = scope.ServiceProvider.GetRequiredService<N5DBContextSeeder>();
+            seeder.Seed().GetAwaiter().GetResult();
         }
     }
 }

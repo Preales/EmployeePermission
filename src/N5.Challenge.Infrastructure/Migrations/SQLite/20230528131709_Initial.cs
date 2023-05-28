@@ -16,8 +16,8 @@ namespace N5.Challenge.Infrastructure.Migrations.SQLite
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name_Value = table.Column<string>(type: "TEXT", nullable: true),
-                    LastName_Value = table.Column<string>(type: "TEXT", nullable: true)
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    LastName = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -29,7 +29,7 @@ namespace N5.Challenge.Infrastructure.Migrations.SQLite
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name_Value = table.Column<string>(type: "TEXT", nullable: true)
+                    Name = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -62,9 +62,10 @@ namespace N5.Challenge.Infrastructure.Migrations.SQLite
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Permissions_EmployeeId",
+                name: "IX_Permissions_EmployeeId_PermissionTypeId",
                 table: "Permissions",
-                column: "EmployeeId");
+                columns: new[] { "EmployeeId", "PermissionTypeId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Permissions_PermissionTypeId",

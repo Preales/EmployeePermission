@@ -20,13 +20,13 @@ namespace N5.Challenge.Infrastructure.Repository
         public async Task<Permission> GetByKeyAsync(PermissionId key)
             => await _dbContext.Permissions.FindAsync(key.Value);
 
-        public async Task PostAsync(Permission entity)
+        public async Task AddAsync(Permission entity)
         {
             _dbContext.Permissions.Add(entity);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task PutAsync(Permission entity)
+        public async Task UpdateAsync(Permission entity)
         {
             var entityToUpdate = await _dbContext.Permissions.FindAsync(entity.Id);
             if (entityToUpdate is null)

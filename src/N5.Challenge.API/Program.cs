@@ -1,4 +1,8 @@
+using N5.Challenge.API.ApplicationServices;
+using N5.Challenge.Common.Kafka;
+using N5.Challenge.Domain.Repositories;
 using N5.Challenge.Infrastructure.Extensions;
+using N5.Challenge.Infrastructure.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +13,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddKafkaService(builder.Configuration);
+
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IPermissionTypeRepository, PermissionTypeRepository>();
+builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
+builder.Services.AddScoped<EmployeeApplicationService>();
 
 var app = builder.Build();
 

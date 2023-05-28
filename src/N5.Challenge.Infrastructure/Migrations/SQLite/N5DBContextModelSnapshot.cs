@@ -69,7 +69,8 @@ namespace N5.Challenge.Infrastructure.Migrations.SQLite
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("Value")
-                                .HasColumnType("TEXT");
+                                .HasColumnType("TEXT")
+                                .HasColumnName("LastName");
 
                             b1.HasKey("EmployeeId");
 
@@ -85,7 +86,8 @@ namespace N5.Challenge.Infrastructure.Migrations.SQLite
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("Value")
-                                .HasColumnType("TEXT");
+                                .HasColumnType("TEXT")
+                                .HasColumnName("Name");
 
                             b1.HasKey("EmployeeId");
 
@@ -127,7 +129,8 @@ namespace N5.Challenge.Infrastructure.Migrations.SQLite
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("Value")
-                                .HasColumnType("TEXT");
+                                .HasColumnType("TEXT")
+                                .HasColumnName("Name");
 
                             b1.HasKey("PermissionTypeId");
 

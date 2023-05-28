@@ -11,8 +11,8 @@ using N5.Challenge.Infrastructure;
 namespace N5.Challenge.Infrastructure.Migrations.SQLite
 {
     [DbContext(typeof(N5DBContext))]
-    [Migration("20230527231644_IndexUniqueInPermission")]
-    partial class IndexUniqueInPermission
+    [Migration("20230528131709_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,7 +72,8 @@ namespace N5.Challenge.Infrastructure.Migrations.SQLite
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("Value")
-                                .HasColumnType("TEXT");
+                                .HasColumnType("TEXT")
+                                .HasColumnName("LastName");
 
                             b1.HasKey("EmployeeId");
 
@@ -88,7 +89,8 @@ namespace N5.Challenge.Infrastructure.Migrations.SQLite
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("Value")
-                                .HasColumnType("TEXT");
+                                .HasColumnType("TEXT")
+                                .HasColumnName("Name");
 
                             b1.HasKey("EmployeeId");
 
@@ -130,7 +132,8 @@ namespace N5.Challenge.Infrastructure.Migrations.SQLite
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("Value")
-                                .HasColumnType("TEXT");
+                                .HasColumnType("TEXT")
+                                .HasColumnName("Name");
 
                             b1.HasKey("PermissionTypeId");
 
