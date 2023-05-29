@@ -21,10 +21,10 @@ namespace N5.Challenge.Common.Kafka
                 BootstrapServers = $"{_kafkaSetting.HostName}:{_kafkaSetting.Port}"
             };
 
-            using (var producer = new ProducerBuilder<Guid, string>(config).Build())
+            using (var producer = new ProducerBuilder<Null, string>(config).Build())
             {
                 string value = JsonSerializer.Serialize(kafkaMessageDto);
-                var message = new Confluent.Kafka.Message<Guid, string> { Key = Guid.NewGuid(), Value = value };
+                var message = new Confluent.Kafka.Message<Null, string> { Value = value };
 
                 var deliveryResult = await producer.ProduceAsync(kafkaMessageDto.OperationName, message);
                 return deliveryResult.Status == PersistenceStatus.Persisted;

@@ -24,9 +24,10 @@ namespace N5.Challenge.API.ApplicationServices
             _employeeRepository = employeeRepository;
             _permissionTypeRepository = permissionTypeRepository;
 
-            DomainEvents.PermisionForCreate.Register(async c =>
+            DomainEvents.PermisionForCreate.Register(async parameters =>
             {
-                //await _permissionRepository.GetAllAsync
+                foreach (var permissionTypeId in parameters.PermissionTypesId)
+                    await HandleCommandAsync(new CreatePermissionCommand(parameters.EmployeeId, permissionTypeId));
             });
         }
 

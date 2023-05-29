@@ -9,7 +9,7 @@ services:
     volumes:
       - zookeeper_data:/data
     networks:
-      - n5-network
+      - n5network
 
   kafka:
     image: confluentinc/cp-kafka:6.2.0
@@ -21,12 +21,12 @@ services:
       - '9092:9092'
     environment:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
     volumes:
       - kafka_data:/var/lib/kafka/data
     networks:
-      - n5-network
+      - n5network
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.15.1
@@ -37,7 +37,7 @@ services:
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     networks:
-      - n5-network
+      - n5network
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.15.1
@@ -51,19 +51,21 @@ services:
     volumes:
       - elasticsearch_data:/usr/share/elasticsearch/data
     networks:
-      - n5-network
+      - n5network
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-latest
     restart: always
     container_name: sqlserver
     ports:
-      - '1433:1433'
+      - '14433:1433'
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=N5Ch4ll3ng3*
+    volumes:
+      - sqlserver_data:/var/opt/mssql
     networks:
-      - n5-network
+      - n5network
 
   n5app:
     build:
@@ -72,15 +74,21 @@ services:
     ports:
       - 80:80
     depends_on:
+      - sqlserver
       - elasticsearch
       - kafka
     networks:
-      - n5-network
+      - n5network
 
 volumes:
   zookeeper_data:
+    driver: local
   kafka_data:
+    driver: local
   elasticsearch_data:
+    driver: local
+  sqlserver_data:
+    driver: local
 
 networks:
-  n5-network:
+  n5network:

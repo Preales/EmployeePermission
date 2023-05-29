@@ -11,12 +11,12 @@ namespace N5.Challenge.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class EmployeeQueryController : ControllerBase
+    public class QueriesController : ControllerBase
     {
         private readonly EmployeeApplicationService _employeApplicationService;
         private readonly PersistenceSetting _persistenceSetting;
 
-        public EmployeeQueryController(
+        public QueriesController(
             EmployeeApplicationService employeApplicationService
             , IOptions<PersistenceSetting> persistenceSetting)
         {
@@ -24,8 +24,26 @@ namespace N5.Challenge.API.Controllers
             _persistenceSetting = persistenceSetting.Value;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpGet("GetAllPermissionTypes")]
+        public async Task<IActionResult> GetAllPermissionTypes()
+        {
+            string query = @"SELECT Id, Name FROM PermissionTypes";
+            List<dynamic> result;
+            if (_persistenceSetting.UseMsSql)
+            {
+                using var connection = new SqlConnection(_persistenceSetting.ConnectionString);
+                result = (await connection.QueryAsync(query)).ToList();
+            }
+            else
+            {
+                using var connection = new SqliteConnection(_persistenceSetting.ConnectionString);
+                result = (await connection.QueryAsync(query)).ToList();
+            }
+            return Ok(result);
+        }
+
+        [HttpGet("GetAllEmployees")]
+        public async Task<IActionResult> GetAllEmployees()
         {
             string query = @"SELECT Id, Name, LastName FROM Employees";
             List<dynamic> result;
@@ -43,7 +61,7 @@ namespace N5.Challenge.API.Controllers
             //return Ok(await _employeApplicationService.HandleQueryAsync(new GetEmployeesQuery()));
         }
 
-        [HttpGet("byId/{id:Guid}")]
+        [HttpGet("GetEmployeeById/{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
             var query = new GetEmployeeByIdQuery(id);

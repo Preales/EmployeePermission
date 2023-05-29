@@ -47,7 +47,7 @@ namespace N5.Challenge.Domain.Entities
                 throw new ArgumentNullException(nameof(permissionTypeId), "permissionTypeId cannot be empty");
             var type = await repositoryPermissionType.GetByKeyAsync(permissionTypeId);
             if (type is null)
-                throw new ArgumentException("Type specified is not valid");
+                throw new ArgumentException("PermissionTypeId specified is not valid");
         }
     }
 }

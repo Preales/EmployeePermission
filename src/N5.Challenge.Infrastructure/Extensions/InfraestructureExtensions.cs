@@ -17,7 +17,6 @@ namespace N5.Challenge.Infrastructure.Extensions
 
             services.Configure<PersistenceSetting>(options => config.GetSection(PersistenceSetting.SettingName).Bind(options));
 
-
             services.AddDbContext<N5DBContext>(options =>
             {
                 if (persistenceSettings.UseSqLite)
@@ -40,6 +39,8 @@ namespace N5.Challenge.Infrastructure.Extensions
         {
             using var scope = services.BuildServiceProvider().CreateScope();
             var logger = scope.ServiceProvider.GetRequiredService<ILogger<T>>();
+            logger.LogInformation($"{new String('=', 80)}{Environment.NewLine} {settings.ConnectionString} {Environment.NewLine}{new String('=', 80)}");
+
             logger.LogWarning($"MigrationOnStartup: {(settings.MigrateOnStartup ? "enabled" : "disabled")}");
             if (settings.MigrateOnStartup)
             {
