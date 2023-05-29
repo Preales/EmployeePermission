@@ -18,7 +18,7 @@ namespace N5.Challenge.API.ApplicationServices
 
         public async Task HandleCommandAsync(CreateEmployeeCommand command)
         {
-            var employee = new Employee(EmployeeId.Create(command.Id));
+            var employee = new Employee(EmployeeId.Create(Guid.NewGuid()));
             employee.SetName(EmployeeName.Create(command.Name));
             employee.SetLastName(EmployeeLastName.Create(command.LastName));
             await _employeeRepository.AddAsync(employee);
@@ -30,6 +30,15 @@ namespace N5.Challenge.API.ApplicationServices
             employee.SetName(EmployeeName.Create(command.Name));
             employee.SetLastName(EmployeeLastName.Create(command.LastName));
             await _employeeRepository.UpdateAsync(employee);
+        }
+
+        public async Task HandleCommandAsync(CreateEmployeeWithPermission command)
+        {
+            var employee = new Employee(EmployeeId.Create(command.Id));
+            employee.SetName(EmployeeName.Create(command.Name));
+            employee.SetLastName(EmployeeLastName.Create(command.LastName));
+            await _employeeRepository.UpdateAsync(employee);
+            employee.AddPermision(command.PermissionTypes);
         }
 
         public async Task<IList<Employee>> HandleQueryAsync(GetEmployeesQuery query)

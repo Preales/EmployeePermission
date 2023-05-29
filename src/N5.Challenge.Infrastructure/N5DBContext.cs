@@ -37,11 +37,12 @@ namespace N5.Challenge.Infrastructure
 
             modelBuilder.Entity<Permission>().HasKey(e => e.Id);
 
+            modelBuilder.Entity<PermissionType>().HasMany(o => o.Permissions)
+                .WithOne(o => o.PermissionType).HasForeignKey(o => o.PermissionTypeId);
+
             modelBuilder.Entity<Employee>().HasMany(o => o.Permissions)
                 .WithOne(o => o.Employee).HasForeignKey(o => o.EmployeeId);
 
-            modelBuilder.Entity<PermissionType>().HasMany(o => o.Permissions)
-                .WithOne(o => o.PermissionType).HasForeignKey(o => o.PermissionTypeId);
 
             modelBuilder.Entity<Permission>()
             .HasIndex(u => new { u.EmployeeId, u.PermissionTypeId })

@@ -2,12 +2,13 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using N5.Challenge.Infrastructure;
 
 #nullable disable
 
-namespace N5.Challenge.Infrastructure.Migrations.SQLite
+namespace N5.Challenge.Infrastructure.Migrations.MSSQL
 {
     [DbContext(typeof(N5DBContext))]
     partial class N5DBContextModelSnapshot : ModelSnapshot
@@ -15,13 +16,17 @@ namespace N5.Challenge.Infrastructure.Migrations.SQLite
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("N5.Challenge.Domain.Entities.Employee", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -32,13 +37,13 @@ namespace N5.Challenge.Infrastructure.Migrations.SQLite
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("EmployeeId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("PermissionTypeId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -54,7 +59,7 @@ namespace N5.Challenge.Infrastructure.Migrations.SQLite
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -66,10 +71,10 @@ namespace N5.Challenge.Infrastructure.Migrations.SQLite
                     b.OwnsOne("N5.Challenge.Domain.ValueObjects.Employee.EmployeeLastName", "LastName", b1 =>
                         {
                             b1.Property<Guid>("EmployeeId")
-                                .HasColumnType("TEXT");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Value")
-                                .HasColumnType("TEXT")
+                                .HasColumnType("nvarchar(max)")
                                 .HasColumnName("LastName");
 
                             b1.HasKey("EmployeeId");
@@ -83,10 +88,10 @@ namespace N5.Challenge.Infrastructure.Migrations.SQLite
                     b.OwnsOne("N5.Challenge.Domain.ValueObjects.Employee.EmployeeName", "Name", b1 =>
                         {
                             b1.Property<Guid>("EmployeeId")
-                                .HasColumnType("TEXT");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Value")
-                                .HasColumnType("TEXT")
+                                .HasColumnType("nvarchar(max)")
                                 .HasColumnName("Name");
 
                             b1.HasKey("EmployeeId");
@@ -126,10 +131,10 @@ namespace N5.Challenge.Infrastructure.Migrations.SQLite
                     b.OwnsOne("N5.Challenge.Domain.ValueObjects.PermissionType.PermissionTypeName", "Name", b1 =>
                         {
                             b1.Property<Guid>("PermissionTypeId")
-                                .HasColumnType("TEXT");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Value")
-                                .HasColumnType("TEXT")
+                                .HasColumnType("nvarchar(max)")
                                 .HasColumnName("Name");
 
                             b1.HasKey("PermissionTypeId");

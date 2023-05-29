@@ -1,4 +1,6 @@
-﻿using N5.Challenge.Domain.ValueObjects.Employee;
+﻿using N5.Challenge.Domain.Events;
+using N5.Challenge.Domain.ValueObjects.Employee;
+using N5.Challenge.Domain.ValueObjects.PermissionType;
 
 namespace N5.Challenge.Domain.Entities
 {
@@ -23,6 +25,16 @@ namespace N5.Challenge.Domain.Entities
         public void SetLastName(EmployeeLastName lastName)
         {
             LastName = lastName;
+        }
+
+        public void AddPermision(List<Guid> PermissionTypesId)
+        {
+            var permissionType = new List<PermissionTypeId>();
+            foreach (var permissionTypeId in PermissionTypesId)
+            {
+                permissionType.Add(PermissionTypeId.Create(permissionTypeId));
+            }
+            DomainEvents.PermisionForCreate.Publish(new PermisionForCreate(Id, permissionType));
         }
     }
 }

@@ -14,6 +14,11 @@
             return new EmployeeLastName(value);
         }
 
+        public static implicit operator string(EmployeeLastName lastName)
+        {
+            return lastName.Value;
+        }
+
         private static void validate(string value)
         {
             if (string.IsNullOrEmpty(value))

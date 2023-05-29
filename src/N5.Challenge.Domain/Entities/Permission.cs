@@ -1,5 +1,7 @@
 ﻿using N5.Challenge.Domain.Repositories;
+using N5.Challenge.Domain.ValueObjects.Employee;
 using N5.Challenge.Domain.ValueObjects.Permission;
+using N5.Challenge.Domain.ValueObjects.PermissionType;
 
 namespace N5.Challenge.Domain.Entities
 {
@@ -18,32 +20,32 @@ namespace N5.Challenge.Domain.Entities
 
         public Permission() { }
 
-        public async Task SetEmployeeId(Employee employee, IEmployeeRepository repositoryEmployee)
+        public async Task SetEmployeeId(EmployeeId employeeId, IEmployeeRepository repositoryEmployee)
         {
-            await ValidateEmployee(employee, repositoryEmployee);
-            EmployeeId = employee.Id;
+            await ValidateEmployee(employeeId, repositoryEmployee);
+            EmployeeId = employeeId;
         }
 
-        private async Task ValidateEmployee(Employee employee, IEmployeeRepository repositoryEmployee)
+        private async Task ValidateEmployee(EmployeeId employeeId, IEmployeeRepository repositoryEmployee)
         {
-            if (employee is null)
-                throw new ArgumentNullException(nameof(employee), "employee cannot be null");
-            var type = await repositoryEmployee.GetByKeyAsync(ValueObjects.Employee.EmployeeId.Create(employee.Id));
+            if (employeeId == Guid.Empty)
+                throw new ArgumentNullException(nameof(employeeId), "employeeId cannot be empty");
+            var type = await repositoryEmployee.GetByKeyAsync(employeeId);
             if (type is null)
                 throw new ArgumentException("Employee specified not exist");
         }
 
-        public async Task SetPermissionTypeId(PermissionType permissionType, IPermissionTypeRepository repositoryPermissionType)
+        public async Task SetPermissionTypeId(PermissionTypeId permissionTypeId, IPermissionTypeRepository repositoryPermissionType)
         {
-            await ValidatePermissionType(permissionType, repositoryPermissionType);
-            PermissionTypeId = permissionType.Id;
+            await ValidatePermissionType(permissionTypeId, repositoryPermissionType);
+            PermissionTypeId = permissionTypeId;
         }
 
-        private async Task ValidatePermissionType(PermissionType permissionType, IPermissionTypeRepository repositoryPermissionType)
+        private async Task ValidatePermissionType(PermissionTypeId permissionTypeId, IPermissionTypeRepository repositoryPermissionType)
         {
-            if (permissionType is null)
-                throw new ArgumentNullException(nameof(permissionType), "permissionType cannot be null");
-            var type = await repositoryPermissionType.GetByKeyAsync(ValueObjects.PermissionType.PermissionTypeId.Create(permissionType.Id));
+            if (permissionTypeId == Guid.Empty)
+                throw new ArgumentNullException(nameof(permissionTypeId), "permissionTypeId cannot be empty");
+            var type = await repositoryPermissionType.GetByKeyAsync(permissionTypeId);
             if (type is null)
                 throw new ArgumentException("Type specified is not valid");
         }

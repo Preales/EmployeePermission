@@ -14,6 +14,11 @@
             return new PermissionTypeName(value);
         }
 
+        public static implicit operator string(PermissionTypeName name)
+        {
+            return name.Value;
+        }
+
         private static void Validate(string value)
         {
             if (string.IsNullOrEmpty(value))

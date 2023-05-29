@@ -9,14 +9,13 @@ namespace N5.Challenge.API.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly EmployeeApplicationService _employeApplicationService;
-        private readonly ILogger<EmployeeController> _logger;
 
         public EmployeeController(
             EmployeeApplicationService employeApplicationService
-            , ILogger<EmployeeController> logger)
+        )
         {
             _employeApplicationService = employeApplicationService;
-            _logger = logger;
+
         }
 
         [HttpPost]
@@ -47,6 +46,18 @@ namespace N5.Challenge.API.Controllers
             }
         }
 
-
+        [HttpPost("WithPermissionType")]
+        public async Task<IActionResult> Post(CreateEmployeeWithPermission command)
+        {
+            try
+            {
+                await _employeApplicationService.HandleCommandAsync(command);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

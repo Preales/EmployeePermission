@@ -35,9 +35,9 @@ namespace N5.Challenge.Infrastructure.Seed
 
         private static PermissionType CreatePermissionType(string name)
         {
-            var permissionTypeRead = new PermissionType(PermissionTypeId.Create(Guid.NewGuid()));
-            permissionTypeRead.SetName(PermissionTypeName.Create(name));
-            return permissionTypeRead;
+            var permissionType = new PermissionType(PermissionTypeId.Create(Guid.NewGuid()));
+            permissionType.SetName(PermissionTypeName.Create(name));
+            return permissionType;
         }
     }
 }
