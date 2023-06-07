@@ -2,6 +2,6 @@
 {
     public interface IElasticsearchService
     {
-        Task<bool> AddDocumentAsync<T>(T document) where T : class;
+        Task<bool> AddDocumentAsync<T>(T document, string index) where T : class;
     }
 }
